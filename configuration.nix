@@ -8,9 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./dotfiles.nix
-      ./nix.conf
-      # ./pkgs.conf
+      <home-manager/nixos>
     ];
 
   # Default Shells
@@ -175,12 +173,17 @@
       ncu	= "nix-channel --update";
       
       g		= "git";
+      gs	= "git status";
       ge	= "git clone";
       gcg	= "git config --global";
       gc	= "git config";
       gcl	= "git config --list";
       ga	= "git add";
       gcm	= "git commit -m";
+      gsw	= "git switch";
+      grv	= "git remote -v";
+      gbl	= "git branch --list";
+      gp	= "git push -u";
 
       y		= "yt-dlp";
       c		= "cd";
@@ -196,14 +199,20 @@
       b		= "bat";
       cl	= "clear";
       s		= "sudo su";
+      sd	= "sudo";
       mkd	= "mkdir";
       cpr	= "cp -r";
       rm	= "rm";
       rmf 	= "rm -rf"; 
       a		= "aria2c";
       vf	= "vifm";
+      ra	= "ranger";
       pc	= "protonvpn-cli";
       nq	= "notepadqq";
+
+      ud	= "udisksctl";
+      udm	= "udisksctl mount -b";
+      udmd	= "udisksctl unmount -b";
     };
   }; 
 
@@ -351,6 +360,7 @@
     nextdns
     nomacs
     notepadqq
+    ntfs3g
     okular
     onlyoffice-bin
     palemoon
@@ -363,6 +373,7 @@
     python310Packages.protonvpn-nm-lib
     python310Packages.aria2p
     qbittorrent
+    ranger
     rcm
     rPackages.telegram
     shotwell
@@ -417,12 +428,11 @@
   # };
 
   # List services that you want to enable:
-#   openssh.enable = true;
    services.flatpak.enable = true;
    xdg.portal.enable = true;
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
