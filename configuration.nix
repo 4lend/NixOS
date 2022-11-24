@@ -171,6 +171,10 @@
       ncl	= "nix-channel --list"; 
       nca	= "nix-channel --add";
       ncu	= "nix-channel --update";
+
+      tls	= "tmux list-sessions";
+      tkls	= "tmux kill-sessions -t";
+      kat	= "pkill -f tmux";
       
       g		= "git";
       gs	= "git status";
@@ -326,6 +330,7 @@
     audacious
     bat
     brave
+    bashInteractive
     btop
     cargo
     cargo-make
