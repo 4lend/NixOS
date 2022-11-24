@@ -181,6 +181,7 @@
       gcgl	= "git config --global --list";
       ga	= "git add";
       gcm	= "git commit -m";
+      gam	= "git commit -a -m";
       gsi	= "git switch";
       grv	= "git remote -v";
       gbl	= "git branch --list";
@@ -394,6 +395,7 @@
     tmux
     tor
     tor-browser-bundle-bin
+    trash-cli
     uget
     uget-integrator
     unrar
