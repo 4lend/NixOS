@@ -178,12 +178,14 @@
       gcg	= "git config --global";
       gc	= "git config";
       gcl	= "git config --list";
+      gcgl	= "git config --global --list";
       ga	= "git add";
       gcm	= "git commit -m";
-      gsw	= "git switch";
+      gsi	= "git switch";
       grv	= "git remote -v";
       gbl	= "git branch --list";
       gp	= "git push -u";
+      gl	= "git log";
 
       y		= "yt-dlp";
       c		= "cd";
@@ -209,6 +211,7 @@
       ra	= "ranger";
       pc	= "protonvpn-cli";
       nq	= "notepadqq";
+      bs	= "bash";
 
       ud	= "udisksctl";
       udm	= "udisksctl mount -b";
@@ -329,6 +332,7 @@
     chromium
     cinnamon.nemo
     cmus
+    darktable
     dbus
     duf
     easyeffects
@@ -353,6 +357,7 @@
     libsForQt5.dolphin
     librewolf
     libreoffice
+    inkscape
     mpv
     nix-index
     neofetch
@@ -363,6 +368,7 @@
     ntfs3g
     okular
     onlyoffice-bin
+    pcmanfm
     palemoon
     pipewire
     pipewire-media-session
