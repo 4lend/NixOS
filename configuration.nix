@@ -185,6 +185,7 @@
       gcl	= "git config --list";
       gcgl	= "git config --global --list";
       ga	= "git add";
+      gal	= "git add -A";
       gcm	= "git commit -m";
       gam	= "git commit -a -m";
       gsi	= "git switch";
@@ -346,6 +347,7 @@
     darktable
     dbus
     duf
+    dnscrypt-proxy2
     easyeffects
     electron
     etcher
