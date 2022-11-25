@@ -175,6 +175,7 @@
       tls	= "tmux list-sessions";
       tkls	= "tmux kill-sessions -t";
       kat	= "pkill -f tmux";
+      tks	= "tmux kill-server";
       
       g		= "git";
       gs	= "git status";
@@ -187,6 +188,9 @@
       gcm	= "git commit -m";
       gam	= "git commit -a -m";
       gsi	= "git switch";
+      gr 	= "git remote";
+      gra	= "git remote add";
+      grmv	= "git remote remove";
       grv	= "git remote -v";
       gbl	= "git branch --list";
       gp	= "git push -u";
@@ -338,6 +342,7 @@
     chromium
     cinnamon.nemo
     cmus
+    cmatrix
     darktable
     dbus
     duf
@@ -468,4 +473,11 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   # system.stateVersion = "22.05"; # Did you read the comment?
+
+  # nix = 
+  # {
+  #   package = pkgs.nixFlakes;
+  #   extraOption = "experimental-features = nix-command flakes";
+  # };
+
 }
