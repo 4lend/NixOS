@@ -171,6 +171,9 @@
       ncl	= "nix-channel --list"; 
       nca	= "nix-channel --add";
       ncu	= "nix-channel --update";
+      hb	= "home-manager build";
+      hs	= "home-manager switch";
+      hg	= "home-manager generations";
 
       tls	= "tmux list-sessions";
       tkls	= "tmux kill-sessions -t";
@@ -365,6 +368,7 @@
     home-manager
     htop
     input-remapper
+    iterm2
     kitty
     kitty-themes
     libsForQt5.dolphin
@@ -408,6 +412,7 @@
     tor
     tor-browser-bundle-bin
     trash-cli
+    ueberzug
     uget
     uget-integrator
     unrar
@@ -427,6 +432,7 @@
     xfce.ristretto
     xfce.thunar
     xfce.thunar-archive-plugin
+    xfce.tumbler
     xorg.xkill
     yt-dlp
     ytmdl
@@ -438,6 +444,12 @@
   nixpkgs.config.permittedInsecurePackages = [
                 "electron-12.2.3"  # etcher
 		];
+
+  nixpkgs.config = 
+  {
+  allowUnsupportedSystem = true;
+
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
