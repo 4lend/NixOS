@@ -11,9 +11,6 @@
       <home-manager/nixos>
     ];
 
-  # Default Shells
-  users.defaultUserShell = pkgs.fish;
-
   # Bootloader.
   boot.loader = {
   systemd-boot.enable = true;
@@ -22,6 +19,7 @@
   timeout = 2;
   };
 
+  ## NETWORKING ##
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -32,33 +30,28 @@
   # Enable networking
   networking.networkmanager.enable = true;
   # networking.networkmanager.dns = "dnsmasq";
-  services.resolved =
-    {
-      enable = true;
-      fallbackDns = 
-      [
-	# cloudflare
-        "1.1.1.1"
-        "1.0.0.1"
-	# quad9
-	"9.9.9.9"
-	"149.112.112.112"
-	# opendns
-	"208.67.222.222"
-	"208.67.220.220"
-	# adguarddns
-	"94.140.14.14"
-	"94.140.15.15"
-	# comodo secure dns
-	"8.26.56.26"
-	"8.20.247.20"
-      ];
-      domains =
-      [
-        "https://doh-jp.blahdns.com/dns-query"
-        "https://dns.adguard-dns.com/dns-query"
-      ];
-    };
+
+  # networking =
+  # # RESOLVCONF 
+  # {
+  #   resolvconf.enable = true;
+  # };
+
+  # ## DNSCRYPT-PROXY2 ##
+  # services.dnscrypt-proxy2 =
+  # {
+  #   enable = true;
+  #   upstreamDefaults = true;
+  #   settings = 
+  #   {
+  #     sources.public-resolvers = {
+  #       urls = [ "https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md" ];
+  #       cache_file = "public-resolvers.md";
+  #       minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+  #       refresh_delay = 72;
+  #     };
+  #   };
+  # };
 
   # Enable network manager applet
   programs.nm-applet.enable = true;
@@ -149,19 +142,74 @@
   # services.xserver.libinput.enable = true;
 
   ### SERVICES ###
-  services.nextdns = {
-      enable = true;
-      arguments = [ "-config" "10.0.3.0/24=abcdef" "-cache-size" "10MB" ];
-      # arguments = [ "-config" "108.162.192.0/18=abcdef"];
-  };
+  services = 
+  {
+    nextdns = {
+        enable = true;
+        arguments = [ "-config" "10.0.3.0/24=abcdef" "-cache-size" "10MB" ];
+        # arguments = [ "-config" "108.162.192.0/18=abcdef"];
+    };
 
   ## ADGUARDHOME ##
-  services.adguardhome = 
-  {
-    enable = true;
-    openFirewall = true;
-    settings.bind_host = "1.1.1.1";
+    adguardhome = 
+    {
+      enable = true;
+      openFirewall = true;
+      settings.bind_host = "1.1.1.1";
+    };
+
+  ## TOR ##
+    tor =
+    {
+      enable = true;
+      client.dns.enable = true;
+      openFirewall = true;
+    };
+
+    ## CLOUDFLARE-CFDYNDNS ##
+    cfdyndns = 
+    {
+      enable = true;
+      email = "syifa.alfurqoni@gmail.com";
+      apikeyFile = "https://api.cloudflare.com/client/v4";
+    };
+
+    ## cloudflare, custom, google, opendns, quad9
+    # https-dns-proxy.provider.kind = "opendns";
+
+    ## RESOLVED ##
+    resolved =
+      {
+        enable = true;
+        fallbackDns = 
+        [
+          # cloudflare
+          "1.1.1.1"
+          "1.0.0.1"
+          # # quad9
+          # "9.9.9.9"
+          # "149.112.112.112"
+          # # opendns
+          # "208.67.222.222"
+          # "208.67.220.220"
+          # # adguarddns
+          # "94.140.14.14"
+          # "94.140.15.15"
+          # # comodo secure dns
+          # "8.26.56.26"
+          # "8.20.247.20"
+        ];
+        domains =
+        [
+          # "https://doh-jp.blahdns.com/dns-query"
+          # "https://dns.adguard-dns.com/dns-query"
+        ];
+      };
   };
+
+  ## USERS ##
+  # Default Shells
+  users.defaultUserShell = pkgs.fish;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alfurqani = {
@@ -172,7 +220,6 @@
 
   # packages = with pkgs; [
   # ];
-
 
   ### PROGRAMS CONFIGURATION ###
 
@@ -503,16 +550,6 @@
   # Or disable the firewall altogether.
   networking.firewall.enable = true;
 
-  # ## CLOUDFLARE-CFDYNDNS ##
-  # services.cfdyndns = 
-  # {
-  #   enable = true;
-  #   email = "syifa.alfurqoni@gmail.com";
-  #   apikeyFile = "https://api.cloudflare.com/client/v4";
-  # };
-
-  ## cloudflare, custom, google, opendns, quad9
-  # services.https-dns-proxy.provider.kind = "opendns";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
