@@ -165,7 +165,7 @@
       lat	= "exa -1 -g -l --icons -s type -a -T";
       du	= "${pkgs.du-dust}/bin/dust";
 
-      n		= "sudo nixos-rebuild switch";
+      nb	= "sudo nixos-rebuild switch";
       conix	= "sudo nvim /etc/nixos/configuration.nix";
       nc	= "nix-channel";
       ncl	= "nix-channel --list"; 
@@ -367,6 +367,7 @@
     gparted
     home-manager
     htop
+    ipfetch
     input-remapper
     iterm2
     kitty
@@ -387,6 +388,7 @@
     onlyoffice-bin
     pcmanfm
     palemoon
+    pfetch
     pipewire
     pipewire-media-session
     plank
@@ -472,13 +474,16 @@
   # Or disable the firewall altogether.
   networking.firewall.enable = true;
 
-  # ## CLOUDFLARE-DYDNS ##
-  # services.cloudflare-dyndns = {
-  #   enable	= true;
-  #   ipv4	= true;
-  #   ipv6	= true;
-  # }; 
+  # ## CLOUDFLARE-CFDYNDNS ##
+  # services.cfdyndns = 
+  # {
+  #   enable = true;
+  #   email = "syifa.alfurqoni@gmail.com";
+  #   apikeyFile = "https://api.cloudflare.com/client/v4";
+  # };
 
+  ## cloudflare, custom, google, opendns, quad9
+  services.https-dns-proxy.provider.kind = "opendns";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
