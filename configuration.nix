@@ -31,8 +31,34 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.networkmanager.dns = "dnsmasq";
-  # services.resolved.enable = true;
+  # networking.networkmanager.dns = "dnsmasq";
+  services.resolved =
+    {
+      enable = true;
+      fallbackDns = 
+      [
+	# cloudflare
+        "1.1.1.1"
+        "1.0.0.1"
+	# quad9
+	"9.9.9.9"
+	"149.112.112.112"
+	# opendns
+	"208.67.222.222"
+	"208.67.220.220"
+	# adguarddns
+	"94.140.14.14"
+	"94.140.15.15"
+	# comodo secure dns
+	"8.26.56.26"
+	"8.20.247.20"
+      ];
+      domains =
+      [
+        "https://doh-jp.blahdns.com/dns-query"
+        "https://dns.adguard-dns.com/dns-query"
+      ];
+    };
 
   # Enable network manager applet
   programs.nm-applet.enable = true;
@@ -69,6 +95,12 @@
   desktopManager.cinnamon.enable = false;
   desktopManager.mate.enable = false;
   desktopManager.xfce.enable = false;
+  
+  # GNOME
+  displayManager.gdm.enable = true;
+  desktopManager.gnome.enable = true;
+
+  };
 
   # THIS USING XFCE DE AND I3 WINDOW MANAGER
   # services.xserver = {
@@ -85,15 +117,6 @@
   #   windowManager.i3.enable = true;
   # };
   
-  # GNOME
-  displayManager.gdm.enable = true;
-  desktopManager.gnome.enable = true;
-
-  # PLASMA5
-  displayManager.sddm.enable = false;
-  desktopManager.plasma5.enable = false;
-  };
-
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
@@ -132,9 +155,13 @@
       # arguments = [ "-config" "108.162.192.0/18=abcdef"];
   };
 
-  # services.adguardhome = {
-  # enable = true;
-  # };
+  ## ADGUARDHOME ##
+  services.adguardhome = 
+  {
+    enable = true;
+    openFirewall = true;
+    settings.bind_host = "1.1.1.1";
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alfurqani = {
@@ -165,7 +192,9 @@
       lat	= "exa -1 -g -l --icons -s type -a -T";
       du	= "${pkgs.du-dust}/bin/dust";
 
-      nb	= "sudo nixos-rebuild switch";
+      nbs	= "sudo nixos-rebuild switch";
+      nbb	= "sudo nixos-rebuild build";
+      nbt	= "sudo nixos-rebuild test";
       conix	= "sudo nvim /etc/nixos/configuration.nix";
       nc	= "nix-channel";
       ncl	= "nix-channel --list"; 
@@ -483,7 +512,7 @@
   # };
 
   ## cloudflare, custom, google, opendns, quad9
-  services.https-dns-proxy.provider.kind = "opendns";
+  # services.https-dns-proxy.provider.kind = "opendns";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
