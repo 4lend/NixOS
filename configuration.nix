@@ -144,13 +144,14 @@
   ### SERVICES ###
   services = 
   {
+    ## NEXTDNS ##
     nextdns = {
         enable = true;
         arguments = [ "-config" "10.0.3.0/24=abcdef" "-cache-size" "10MB" ];
         # arguments = [ "-config" "108.162.192.0/18=abcdef"];
     };
 
-  ## ADGUARDHOME ##
+    ## ADGUARDHOME ##
     adguardhome = 
     {
       enable = true;
@@ -158,7 +159,7 @@
       settings.bind_host = "1.1.1.1";
     };
 
-  ## TOR ##
+    ## TOR ##
     tor =
     {
       enable = true;
@@ -166,16 +167,16 @@
       openFirewall = true;
     };
 
-    ## CLOUDFLARE-CFDYNDNS ##
-    cfdyndns = 
-    {
-      enable = true;
-      email = "syifa.alfurqoni@gmail.com";
-      apikeyFile = "https://api.cloudflare.com/client/v4";
-    };
+    # ## CLOUDFLARE-CFDYNDNS ##
+    # cfdyndns = 
+    # {
+    #   enable = true;
+    #   email = "syifa.alfurqoni@gmail.com";
+    #   apikeyFile = "https://api.cloudflare.com/client/v4";
+    # };
 
     ## cloudflare, custom, google, opendns, quad9
-    # https-dns-proxy.provider.kind = "opendns";
+    https-dns-proxy.provider.kind = "cloudflare";
 
     ## RESOLVED ##
     resolved =
@@ -223,11 +224,14 @@
 
   ### PROGRAMS CONFIGURATION ###
 
-  ## FISH ## 
-  # fishConfig = {
-  #  bind \t accept-autosuggestion
-  #  set fish_greeting
-  #  };
+  programs.zsh =
+  {
+    enable = true;
+    ohMyZsh =
+    {
+      enable = true;
+    };
+  };
    
   programs.fish = {
     enable = true;
@@ -252,7 +256,7 @@
       hg	= "home-manager generations";
 
       tls	= "tmux list-sessions";
-      tkls	= "tmux kill-sessions -t";
+      tkls	= "tmux kill-session -t";
       kat	= "pkill -f tmux";
       tks	= "tmux kill-server";
       
