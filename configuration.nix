@@ -159,13 +159,13 @@
       settings.bind_host = "1.1.1.1";
     };
 
-    ## TOR ##
-    tor =
-    {
-      enable = true;
-      client.dns.enable = true;
-      openFirewall = true;
-    };
+    # ## TOR ##
+    # tor =
+    # {
+    #   enable = true;
+    #   client.dns.enable = true;
+    #   openFirewall = true;
+    # };
 
     # ## CLOUDFLARE-CFDYNDNS ##
     # cfdyndns = 
