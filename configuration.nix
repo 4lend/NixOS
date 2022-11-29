@@ -20,38 +20,28 @@
   };
 
   ## NETWORKING ##
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking =
+  {
+    hostName = "nixos";
+    # hostName = "nixos"; # Define your hostname.
+    # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+    # Configure network proxy if necessary
+    # proxy.default = "http://user:password@proxy:port/";
+    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
-  # networking.networkmanager.dns = "dnsmasq";
+    # Enable networking
+    networkmanager.enable = true;
+    networkmanager.dns = "unbound";
 
-  # networking =
-  # # RESOLVCONF 
-  # {
-  #   resolvconf.enable = true;
-  # };
+    # networking =
+    # # RESOLVCONF 
+    # {
+    #   resolvconf.enable = true;
+    # };
+  };
 
-  # ## DNSCRYPT-PROXY2 ##
-  # services.dnscrypt-proxy2 =
-  # {
-  #   enable = true;
-  #   upstreamDefaults = true;
-  #   settings = 
-  #   {
-  #     sources.public-resolvers = {
-  #       urls = [ "https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md" ];
-  #       cache_file = "public-resolvers.md";
-  #       minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
-  #       refresh_delay = 72;
-  #     };
-  #   };
-  # };
+
 
   # Enable network manager applet
   programs.nm-applet.enable = true;
@@ -145,19 +135,27 @@
   services = 
   {
     ## NEXTDNS ##
-    nextdns = {
-        enable = true;
-        arguments = [ "-config" "10.0.3.0/24=abcdef" "-cache-size" "10MB" ];
-        # arguments = [ "-config" "108.162.192.0/18=abcdef"];
-    };
-
-    ## ADGUARDHOME ##
-    adguardhome = 
+    nextdns = 
     {
       enable = true;
-      openFirewall = true;
-      settings.bind_host = "1.1.1.1";
+      arguments = 
+      [ 
+        "-config" 
+        # "108.162.192.0/18=abcdef"
+        # "188.114.96.0/20=cfv4"
+        # "2606:4700::/32=cfv6"
+        "2a06:98c0::/29=cfv6"
+        # "-cache-size" "10MB"
+      ];
     };
+
+    # ## ADGUARDHOME ##
+    # adguardhome = 
+    # {
+    #   enable = true;
+    #   openFirewall = true;
+    #   settings.bind_host = "1.1.1.1";
+    # };
 
     # ## TOR ##
     # tor =
@@ -176,36 +174,52 @@
     # };
 
     ## cloudflare, custom, google, opendns, quad9
-    https-dns-proxy.provider.kind = "cloudflare";
+    # https-dns-proxy.provider.kind = "cloudflare";
 
-    ## RESOLVED ##
-    resolved =
-      {
-        enable = true;
-        fallbackDns = 
-        [
-          # cloudflare
-          "1.1.1.1"
-          "1.0.0.1"
-          # # quad9
-          # "9.9.9.9"
-          # "149.112.112.112"
-          # # opendns
-          # "208.67.222.222"
-          # "208.67.220.220"
-          # # adguarddns
-          # "94.140.14.14"
-          # "94.140.15.15"
-          # # comodo secure dns
-          # "8.26.56.26"
-          # "8.20.247.20"
-        ];
-        domains =
-        [
-          # "https://doh-jp.blahdns.com/dns-query"
-          # "https://dns.adguard-dns.com/dns-query"
-        ];
-      };
+    # ## RESOLVED ##
+    # resolved =
+    #   {
+    #     enable = true;
+    #     fallbackDns = 
+    #     [
+    #       # cloudflare
+    #       "1.1.1.1"
+    #       "1.0.0.1"
+    #       # # quad9
+    #       # "9.9.9.9"
+    #       # "149.112.112.112"
+    #       # # opendns
+    #       # "208.67.222.222"
+    #       # "208.67.220.220"
+    #       # # adguarddns
+    #       # "94.140.14.14"
+    #       # "94.140.15.15"
+    #       # # comodo secure dns
+    #       # "8.26.56.26"
+    #       # "8.20.247.20"
+    #     ];
+    #     domains =
+    #     [
+    #       # "https://doh-jp.blahdns.com/dns-query"
+    #       # "https://dns.adguard-dns.com/dns-query"
+    #     ];
+    #   };
+
+    # ## DNSCRYPT-PROXY2 ##
+    # dnscrypt-proxy2 =
+    # {
+    #   enable = true;
+    #   upstreamDefaults = true;
+    #   settings = 
+    #   {
+    #     sources.public-resolvers = {
+    #       urls = [ "https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md" ];
+    #       cache_file = "public-resolvers.md";
+    #       minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+    #       refresh_delay = 72;
+    #     };
+    #   };
+    # };
   };
 
   ## USERS ##
