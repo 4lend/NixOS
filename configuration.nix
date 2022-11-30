@@ -273,14 +273,18 @@
   };
 
   ## USERS ##
-  # Default Shells
-  users.defaultUserShell = pkgs.fish;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.alfurqani = {
-    isNormalUser = true;
-    description = "4LEND";
-    extraGroups = [ "networkmanager" "wheel" ];
+  users = 
+  {
+    users.alfurqani = 
+    {
+      isNormalUser = true;
+      description = "4LEND";
+      extraGroups = [ "networkmanager" "wheel" ];
+    };
+    # Default Shells
+    defaultUserShell = pkgs.fish;
   };
 
   # packages = with pkgs; [
@@ -291,6 +295,15 @@
   programs.zsh =
   {
     enable = true;
+    autosuggestions =
+    {
+      enable = true;
+      async = true;
+      strategy = 
+      [
+        "history"
+      ];
+    };
     ohMyZsh =
     {
       enable = true;
