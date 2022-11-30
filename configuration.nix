@@ -31,13 +31,19 @@
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
     # Enable networking
-    networkmanager.enable = true;
-    networkmanager.dns = "unbound";
+    networkmanager =
+    {
+    enable = true;
+    enableStrongSwan = true;
+    };
 
-    # networking =
     # # RESOLVCONF 
+    # useHostResolvConf = true;
+    # resolvconf =
     # {
-    #   resolvconf.enable = true;
+    #   enable = true;
+    #   extraConfig = "libc=NO"; 
+    #   useLocalResolver = true;
     # };
   };
 
@@ -138,24 +144,58 @@
     nextdns = 
     {
       enable = true;
-      arguments = 
-      [ 
-        "-config" 
-        # "108.162.192.0/18=abcdef"
-        # "188.114.96.0/20=cfv4"
-        # "2606:4700::/32=cfv6"
-        "2a06:98c0::/29=cfv6"
-        # "-cache-size" "10MB"
-      ];
+      # arguments = 
+      # [ 
+      #   "-config" 
+      #   "108.162.192.0/18=abcdef"
+      #   "188.114.96.0/20=cfv4"
+      #   "2606:4700::/32=cfv6"
+      #   "2a06:98c0::/29=cfv6"
+      #   # "-cache-size" "10MB"
+      # ];
     };
 
-    # ## ADGUARDHOME ##
-    # adguardhome = 
-    # {
-    #   enable = true;
-    #   openFirewall = true;
-    #   settings.bind_host = "1.1.1.1";
-    # };
+    ## ADGUARDHOME ##
+    adguardhome = 
+    {
+      enable = true;
+      openFirewall = true;
+      settings =
+      {
+        dns =
+	{
+          bind_host = 
+            # "1.1.1.1";
+            "173.245.48.0";
+	
+	  bind_port = "20";
+
+          # query logging
+          querylog_enabled = true;
+          querylog_file_enabled = true;
+          querylog_interval = "24h";
+          querylog_size_memory = 1000;   # entries
+          anonymize_client_ip = true;   # for now
+
+          # adguard
+	  protection_enable = true;
+	  blocking_mode = "default";
+	  filtering_enable = true;
+
+	  # cloudflare DNS
+	  cloudflare.dns =
+	  [
+	    "1.1.1.1"
+	    "1.0.0.1"
+	  ];
+
+	  # caching
+          cache_size = 536870912;  # 512 MB
+          cache_ttl_min = 1800;    # 30 min
+          cache_optimistic = true; # return stale and then refresh
+	};
+      };
+    };
 
     # ## TOR ##
     # tor =
@@ -173,8 +213,18 @@
     #   apikeyFile = "https://api.cloudflare.com/client/v4";
     # };
 
-    ## cloudflare, custom, google, opendns, quad9
-    # https-dns-proxy.provider.kind = "cloudflare";
+    # ## cloudflare, custom, google, opendns, quad9
+    # https-dns-proxy = 
+    # {
+    # enable = true;
+    # provider.kind = "cloudflare";
+    # # provider.url = "94.140.14.14";
+    # # provider.ips = [
+    # # "188.114.96.0/20"
+    # # "173.245.48.0/20"
+    # # "190.93.240.0/20"
+    # # ];
+    # };
 
     # ## RESOLVED ##
     # resolved =
@@ -437,6 +487,7 @@
     cargo
     cargo-make
     cava
+    checkip
     chromium
     cinnamon.nemo
     cmus
