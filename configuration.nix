@@ -310,83 +310,10 @@
     };
   };
    
-  programs.fish = {
+  programs.fish = 
+  {
     enable = true;
     # shellInit	= fishConfig;
-    shellAliases = {
-      l	= "exa -1 -g -l --icons -s type";
-      la	= "exa -1 -g -l --icons -s type -a";
-      lt	= "exa -1 -g -l --icons -s type -T";
-      lat	= "exa -1 -g -l --icons -s type -a -T";
-      du	= "${pkgs.du-dust}/bin/dust";
-
-      nbs	= "sudo nixos-rebuild switch";
-      nbb	= "sudo nixos-rebuild build";
-      nbt	= "sudo nixos-rebuild test";
-      conix	= "sudo nvim /etc/nixos/configuration.nix";
-      nc	= "nix-channel";
-      ncl	= "nix-channel --list"; 
-      nca	= "nix-channel --add";
-      ncu	= "nix-channel --update";
-      hb	= "home-manager build";
-      hs	= "home-manager switch";
-      hg	= "home-manager generations";
-
-      tls	= "tmux list-sessions";
-      tkls	= "tmux kill-session -t";
-      kat	= "pkill -f tmux";
-      tks	= "tmux kill-server";
-      
-      g		= "git";
-      gs	= "git status";
-      ge	= "git clone";
-      gcg	= "git config --global";
-      gc	= "git config";
-      gcl	= "git config --list";
-      gcgl	= "git config --global --list";
-      ga	= "git add";
-      gal	= "git add -A";
-      gcm	= "git commit -m";
-      gam	= "git commit -a -m";
-      gsi	= "git switch";
-      gr 	= "git remote";
-      gra	= "git remote add";
-      grmv	= "git remote remove";
-      grv	= "git remote -v";
-      gbl	= "git branch --list";
-      gp	= "git push -u";
-      gl	= "git log";
-
-      y		= "yt-dlp";
-      c		= "cd";
-      d		= "cd ..";
-      v		= "vim";
-      nv	= "nvim";
-      t 	= "tmux";
-      e		= "exit";
-      lv	= "lvim";
-      sp	= "speedtest-cli";
-      py	= "python";
-      py3	= "python3";
-      b		= "bat";
-      cl	= "clear";
-      s		= "sudo su";
-      sd	= "sudo";
-      mkd	= "mkdir";
-      cpr	= "cp -r";
-      rm	= "rm";
-      rmf 	= "rm -rf"; 
-      a		= "aria2c";
-      vf	= "vifm";
-      ra	= "ranger";
-      pc	= "protonvpn-cli";
-      nq	= "notepadqq";
-      bs	= "bash";
-
-      ud	= "udisksctl";
-      udm	= "udisksctl mount -b";
-      udmd	= "udisksctl unmount -b";
-    };
   }; 
 
   ## STARSHIP ##
@@ -483,121 +410,199 @@
 
 
   ### PACKAGES ###
-  environment.systemPackages = with pkgs; [
-  	
-  	javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  home-manager  dbus  python310Packages.dbus-python
-  	
-    adguardhome
-    alacritty
-    archiver
-    aria
-    ascii
-    audacious
-    bat
-    brave
-    bashInteractive
-    btop
-    cargo
-    cargo-make
-    cava
-    checkip
-    chromium
-    cinnamon.nemo
-    cmus
-    cmatrix
-    darktable
-    dbus
-    duf
-    dnscrypt-proxy2
-    easyeffects
-    electron
-    etcher
-    exa
-    flatpak
-    firefox
-    fish
-    firewalld
-    geany
-    git
-    gnupg
-    gnome.gnome-boxes
-    google-chrome
-    gparted
-    home-manager
-    htop
-    ipfetch
-    input-remapper
-    iterm2
-    kitty
-    kitty-themes
-    libsForQt5.dolphin
-    librewolf
-    libreoffice
-    inkscape
-    mpv
-    nix-index
-    neofetch
-    neovim
-    nextdns
-    nomacs
-    notepadqq
-    ntfs3g
-    okular
-    onlyoffice-bin
-    pcmanfm
-    palemoon
-    pfetch
-    pipewire
-    pipewire-media-session
-    plank
-    persepolis
-    protonvpn-cli
-    protonvpn-gui
-    python310Packages.protonvpn-nm-lib
-    python310Packages.aria2p
-    qbittorrent
-    ranger
-    rcm
-    rPackages.telegram
-    shotwell
-    simplenote
-    steam
-    subdl
-    speedtest-cli
-    standardnotes
-    starship
-    tdesktop
-    terminal-typeracer
-    tmux
-    tor
-    tor-browser-bundle-bin
-    trash-cli
-    ueberzug
-    uget
-    uget-integrator
-    unrar
-    vifm
-    vifm-full
-    vim
-    vscode-with-extensions 
-    ventoy-bin
-    vlc
-    wget
-    whatsapp-for-linux
-    wireplumber
-    woeusb
-    woeusb-ng
-    wpsoffice
-    xarchiver
-    xfce.ristretto
-    xfce.thunar
-    xfce.thunar-archive-plugin
-    xfce.tumbler
-    xorg.xkill
-    yt-dlp
-    ytmdl
-    zsh
- ];
+  environment = 
+  {
+    shellAliases = 
+    {
+      l		= "exa -1 -g -l --icons -s type";
+      la	= "exa -1 -g -l --icons -s type -a";
+      lt	= "exa -1 -g -l --icons -s type -T";
+      lat	= "exa -1 -g -l --icons -s type -a -T";
+      du	= "${pkgs.du-dust}/bin/dust";
+
+      nbs	= "sudo nixos-rebuild switch";
+      nbb	= "sudo nixos-rebuild build";
+      nbt	= "sudo nixos-rebuild test";
+      conix	= "sudo nvim /etc/nixos/configuration.nix";
+      nc	= "nix-channel";
+      ncl	= "nix-channel --list"; 
+      nca	= "nix-channel --add";
+      ncu	= "nix-channel --update";
+      hb	= "home-manager build";
+      hs	= "home-manager switch";
+      hg	= "home-manager generations";
+
+      tls	= "tmux list-sessions";
+      tkls	= "tmux kill-session -t";
+      kat	= "pkill -f tmux";
+      tks	= "tmux kill-server";
+      
+      g		= "git";
+      gs	= "git status";
+      ge	= "git clone";
+      gcg	= "git config --global";
+      gc	= "git config";
+      gcl	= "git config --list";
+      gcgl	= "git config --global --list";
+      ga	= "git add";
+      gal	= "git add -A";
+      gcm	= "git commit -m";
+      gam	= "git commit -a -m";
+      gsi	= "git switch";
+      gr 	= "git remote";
+      gra	= "git remote add";
+      grmv	= "git remote remove";
+      grv	= "git remote -v";
+      gbl	= "git branch --list";
+      gp	= "git push -u";
+      gl	= "git log";
+
+      y		= "yt-dlp";
+      c		= "cd";
+      d		= "cd ..";
+      v		= "vim";
+      nv	= "nvim";
+      t 	= "tmux";
+      e		= "exit";
+      lv	= "lvim";
+      sp	= "speedtest-cli";
+      py	= "python";
+      py3	= "python3";
+      b		= "bat";
+      cl	= "clear";
+      s		= "sudo su";
+      sd	= "sudo";
+      mkd	= "mkdir";
+      cpr	= "cp -r";
+      rm	= "rm";
+      rmf 	= "rm -rf"; 
+      a		= "aria2c";
+      vf	= "vifm";
+      ra	= "ranger";
+      pc	= "protonvpn-cli";
+      nq	= "notepadqq";
+      bs	= "bash";
+
+      ud	= "udisksctl";
+      udm	= "udisksctl mount -b";
+      udmd	= "udisksctl unmount -b";
+    };
+
+    systemPackages = with pkgs;
+    [
+      javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  home-manager  dbus  python310Packages.dbus-python
+      adguardhome
+      alacritty
+      archiver
+      aria
+      ascii
+      audacious
+      bat
+      brave
+      bashInteractive
+      btop
+      cargo
+      cargo-make
+      cava
+      checkip
+      chromium
+      cinnamon.nemo
+      cmus
+      cmatrix
+      darktable
+      dbus
+      duf
+      dnscrypt-proxy2
+      easyeffects
+      electron
+      etcher
+      exa
+      flatpak
+      firefox
+      fish
+      firewalld
+      geany
+      git
+      gnupg
+      gnome.gnome-boxes
+      google-chrome
+      gparted
+      home-manager
+      htop
+      ipfetch
+      input-remapper
+      iterm2
+      kitty
+      kitty-themes
+      libsForQt5.dolphin
+      librewolf
+      libreoffice
+      inkscape
+      mpv
+      nix-index
+      neofetch
+      neovim
+      nextdns
+      nomacs
+      notepadqq
+      ntfs3g
+      okular
+      onlyoffice-bin
+      pcmanfm
+      palemoon
+      pfetch
+      pipewire
+      pipewire-media-session
+      plank
+      persepolis
+      protonvpn-cli
+      protonvpn-gui
+      python310Packages.protonvpn-nm-lib
+      python310Packages.aria2p
+      qbittorrent
+      ranger
+      rcm
+      rPackages.telegram
+      shotwell
+      simplenote
+      steam
+      subdl
+      speedtest-cli
+      standardnotes
+      starship
+      tdesktop
+      terminal-typeracer
+      tmux
+      tor
+      tor-browser-bundle-bin
+      trash-cli
+      ueberzug
+      uget
+      uget-integrator
+      unrar
+      vifm
+      vifm-full
+      vim
+      vscode-with-extensions 
+      ventoy-bin
+      vlc
+      wget
+      whatsapp-for-linux
+      wireplumber
+      woeusb
+      woeusb-ng
+      wpsoffice
+      xarchiver
+      xfce.ristretto
+      xfce.thunar
+      xfce.thunar-archive-plugin
+      xfce.tumbler
+      xorg.xkill
+      yt-dlp
+      ytmdl
+      zsh
+    ];
+  };
 
 
   # NIXPKGS CONFIG
