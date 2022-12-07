@@ -33,9 +33,54 @@
     # Enable networking
     networkmanager =
     {
-    enable = true;
-    enableStrongSwan = true;
+      enable = true;
+      # dns = "dnsmasq";
+      # enableStrongSwan = true;
     };
+
+    ## WIREGUARD ##
+    # wg-netmanager.enable = true;
+    # wireguard =
+    # {
+    #   enable = true;
+    #   interfaces = 
+    #   {
+    #     wg0 = {
+    #       ips = [
+    #         "192.168.20.4/24"
+    #       ];
+    #       peers = [
+    #         {
+    #           allowedIPs = [
+    #             "192.168.20.1/32"
+    #           ];
+    #           endpoint = "demo.wireguard.io:12913";
+    #           publicKey = "xTIBA5rboUvnH4htodjb6e697QjLERt1NAB4mZqp8Dg=";
+    #         }
+    #       ];
+    #       privateKey = "yAnz5TF+lXXJte14tji3zlMNq+hd2rYUIgJBgB3fBmk=";
+    #     };
+    #   };
+    # };
+
+    # wg-quick.interfaces = 
+    # {
+    #   wg0 = {
+    #     address = [
+    #       "192.168.20.4/24"
+    #     ];
+    #     peers = [
+    #       {
+    #         allowedIPs = [
+    #           "192.168.20.1/32"
+    #         ];
+    #         endpoint = "demo.wireguard.io:12913";
+    #         publicKey = "xTIBA5rboUvnH4htodjb6e697QjLERt1NAB4mZqp8Dg=";
+    #       }
+    #     ];
+    #     privateKey = "yAnz5TF+lXXJte14tji3zlMNq+hd2rYUIgJBgB3fBmk=";
+    #   };
+    # };
 
     # # RESOLVCONF 
     # useHostResolvConf = true;
@@ -58,7 +103,8 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.utf8";
 
-  i18n.extraLocaleSettings = {
+  i18n.extraLocaleSettings = 
+  {
     LC_ADDRESS = "id_ID.utf8";
     LC_IDENTIFICATION = "id_ID.utf8";
     LC_MEASUREMENT = "id_ID.utf8";
@@ -140,20 +186,21 @@
   ### SERVICES ###
   services = 
   {
-    ## NEXTDNS ##
-    nextdns = 
-    {
-      enable = true;
-      # arguments = 
-      # [ 
-      #   "-config" 
-      #   "108.162.192.0/18=abcdef"
-      #   "188.114.96.0/20=cfv4"
-      #   "2606:4700::/32=cfv6"
-      #   "2a06:98c0::/29=cfv6"
-      #   # "-cache-size" "10MB"
-      # ];
-    };
+    # ## NEXTDNS ##
+    # nextdns = 
+    # {
+    #   enable = true;
+    #   # arguments = 
+    #   # [ 
+    #   #   "-config" 
+    #   #     "149.112.112.112/20=quad9v4"
+    #   # #   "108.162.192.0/18=abcdef"
+    #   # #   "188.114.96.0/20=cfv4"
+    #   # #   "2606:4700::/32=cfv6"
+    #   # #   "2a06:98c0::/29=cfv6"
+    #   # #   # "-cache-size" "10MB"
+    #   # ];
+    # };
 
     ## ADGUARDHOME ##
     adguardhome = 
@@ -163,12 +210,12 @@
       settings =
       {
         dns =
-	{
+        {
           bind_host = 
             # "1.1.1.1";
             "173.245.48.0";
-	
-	  bind_port = "20";
+        
+          bind_port = "20";
 
           # query logging
           querylog_enabled = true;
@@ -178,22 +225,38 @@
           anonymize_client_ip = true;   # for now
 
           # adguard
-	  protection_enable = true;
-	  blocking_mode = "default";
-	  filtering_enable = true;
+          protection_enable = true;
+          blocking_mode = "default";
+          filtering_enable = true;
 
-	  # cloudflare DNS
-	  cloudflare.dns =
-	  [
-	    "1.1.1.1"
-	    "1.0.0.1"
-	  ];
+          # cloudflare DNS
+          cloudflare.dns =
+          [
+            "1.1.1.1"
+            "1.0.0.1"
+          ];
 
-	  # caching
+          # caching
           cache_size = 536870912;  # 512 MB
           cache_ttl_min = 1800;    # 30 min
           cache_optimistic = true; # return stale and then refresh
-	};
+        };
+      };
+    };
+
+    ## DNSCRYPT-PROXY2 ##
+    dnscrypt-proxy2 =
+    {
+      enable = true;
+      upstreamDefaults = true;
+      settings = 
+      {
+        sources.public-resolvers = {
+          urls = [ "https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md" ];
+          cache_file = "public-resolvers.md";
+          minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+          refresh_delay = 72;
+        };
       };
     };
 
@@ -217,7 +280,7 @@
     # https-dns-proxy = 
     # {
     # enable = true;
-    # provider.kind = "cloudflare";
+    # provider.kind = "quad9";
     # # provider.url = "94.140.14.14";
     # # provider.ips = [
     # # "188.114.96.0/20"
@@ -254,23 +317,8 @@
     #       # "https://dns.adguard-dns.com/dns-query"
     #     ];
     #   };
-
-    # ## DNSCRYPT-PROXY2 ##
-    # dnscrypt-proxy2 =
-    # {
-    #   enable = true;
-    #   upstreamDefaults = true;
-    #   settings = 
-    #   {
-    #     sources.public-resolvers = {
-    #       urls = [ "https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md" ];
-    #       cache_file = "public-resolvers.md";
-    #       minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
-    #       refresh_delay = 72;
-    #     };
-    #   };
-    # };
   };
+
 
   ## USERS ##
 
@@ -278,8 +326,7 @@
   users = 
   {
     users.alfurqani = 
-    {
-      isNormalUser = true;
+    { isNormalUser = true;
       description = "4LEND";
       extraGroups = [ "networkmanager" "wheel" ];
     };
@@ -292,22 +339,42 @@
 
   ### PROGRAMS CONFIGURATION ###
 
+  virtualisation.docker =
+  {
+    enable = true;
+  };
+
   programs.zsh =
   {
     enable = true;
+    enableCompletion = true;
+    syntaxHighlighting = 
+    {
+      enable = true;
+      highlighters = 
+      [
+        "main"
+      ];
+    };
     autosuggestions =
     {
       enable = true;
       async = true;
       strategy = 
       [
-        "history"
+	"history"
+	"completion"
+        "match_prev_cmd"
       ];
+      # extraConfig = 
+      # {
+      #   "bindkey '\t'" = "autosuggest-accept";
+      # };
     };
-    ohMyZsh =
-    {
-      enable = true;
-    };
+    # ohMyZsh =
+    # {
+    #   enable = true;
+    # };
   };
    
   programs.fish = 
@@ -317,7 +384,8 @@
   }; 
 
   ## STARSHIP ##
-  programs.starship = {
+  programs.starship = 
+  {
     enable	= true;
     settings	= {
     add_newline = true;
@@ -356,6 +424,10 @@
     terminal 	= "screen-256color";
     keyMode	= "vi";
     clock24 	= true;
+    # extraConfig	= 
+    # "
+    #   set -g default-command /run/current-system/sw/bin/zsh
+    # ";
     plugins 	= with pkgs.tmuxPlugins; [
       jump
       battery
@@ -396,6 +468,8 @@
       nerdfonts
       nerd-font-patcher
       comic-mono
+      comic-neue
+      comic-relief
     ];
     fontconfig = {
       enable = true;
@@ -404,6 +478,9 @@
         sansSerif	=  [ "ComicMono" ];
         serif		=  [ "ComicMono" ];
 	emoji		=  [ "Material-Design-Icons" ];
+        # monospace	=  [ "ComicRelief" ];
+        # sansSerif	=  [ "ComicRelief" ];
+        # serif		=  [ "ComicRelief" ];
       };
     };
   };
@@ -458,6 +535,7 @@
       gl	= "git log";
 
       y		= "yt-dlp";
+      yy	= "yt-dlp --extract-audio --audio-quality 0";
       c		= "cd";
       d		= "cd ..";
       v		= "vim";
@@ -490,79 +568,44 @@
 
     systemPackages = with pkgs;
     [
-      javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  home-manager  dbus  python310Packages.dbus-python
-      adguardhome
-      alacritty
-      archiver
-      aria
+      javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  dbus  python310Packages.dbus-python  nodejs  yarn  docker
       ascii
+      atool
       audacious
       bat
-      brave
-      bashInteractive
-      btop
       cargo
-      cargo-make
-      cava
-      checkip
-      chromium
       cinnamon.nemo
-      cmus
       cmatrix
       darktable
       dbus
       duf
-      dnscrypt-proxy2
-      easyeffects
       electron
-      etcher
       exa
       flatpak
-      firefox
-      fish
       firewalld
       geany
       git
       gnupg
-      gnome.gnome-boxes
-      google-chrome
       gparted
-      home-manager
-      htop
-      ipfetch
       input-remapper
-      iterm2
-      kitty
       kitty-themes
       libsForQt5.dolphin
-      librewolf
       libreoffice
       inkscape
-      mpv
       nix-index
-      neofetch
-      neovim
-      nextdns
       nomacs
       notepadqq
       ntfs3g
       okular
       onlyoffice-bin
       pcmanfm
-      palemoon
       pfetch
-      pipewire
-      pipewire-media-session
       plank
-      persepolis
       protonvpn-cli
       protonvpn-gui
       python310Packages.protonvpn-nm-lib
-      python310Packages.aria2p
       qbittorrent
       ranger
-      rcm
-      rPackages.telegram
       shotwell
       simplenote
       steam
@@ -571,36 +614,142 @@
       standardnotes
       starship
       tdesktop
-      terminal-typeracer
-      tmux
-      tor
-      tor-browser-bundle-bin
       trash-cli
       ueberzug
-      uget
-      uget-integrator
       unrar
       vifm
       vifm-full
-      vim
       vscode-with-extensions 
-      ventoy-bin
-      vlc
       wget
-      whatsapp-for-linux
+      wpsoffice
+      xorg.xkill
+
+      # share
+      opendrop
+
+      # social
+      discord
+      # whatsapp-for-linux
+      rPackages.telegram
+      mailspring
+      rPackages.Rfacebook
+      rPackages.facebookadsR
+      caprine-bin
+      gfbgraph
+      rPackages.rfacebookstat
+      mautrix-facebook
+      purple-facebook
+      libreddit
+      headset
+      lemmy-ui
+      lemmy-server
+      giara
+      # haskellPackages.reddit
+      rPackages.twitteR
+      python310Packages.twitter
+      turses
+
+      franz
+      cawbird
+
+      # audio
       wireplumber
+      easyeffects
+      pipewire
+      pipewire-media-session
+      ffmpeg
+      freac  boca
+
+      # archiver
+      archiver
+      xarchiver
+      fsarchiver
+      zip
+
+      # network
+      adguardhome
+      tor
+      dnscrypt-proxy2
+
+      # media player
+      mpv
+      vlc
+      cmus
+      cava
+      streamlink
+
+      # terminal
+      alacritty
+      kitty
+      tmux
+      terminal-typeracer
+      vim
+      page
+      neovim-unwrapped
+      nvimpager
+      neovide
+      uivonim
+
+      # browser
+      firefox
+      librewolf
+      brave
+      chromium
+      tor-browser-bundle-bin
+      google-chrome
+      opera
+      palemoon
+
+      # downloader
+      yt-dlp
+      youtube-dl 
+      ytmdl
+      aria
+      python310Packages.aria2p
+      uget
+      uget-integrator
+
+      # usb bootable
       woeusb
       woeusb-ng
-      wpsoffice
-      xarchiver
+      etcher
+      ventoy-bin
+      # ventoy-full-bin
+
+      # xfce package
       xfce.ristretto
       xfce.thunar
       xfce.thunar-archive-plugin
       xfce.tumbler
-      xorg.xkill
-      yt-dlp
-      ytmdl
+
+      # shell
+      fish
       zsh
+      bashInteractive
+
+      # configuration dotfiles
+      home-manager
+      rcm
+
+      # terminal display system information
+      btop
+      htop
+      neofetch
+      checkip
+      freshfetch
+      ipfetch
+      hyfetch
+      pridefetch
+
+      # virtual machine
+      gnome.gnome-boxes
+      vmware-workstation
+      virtualbox
+      qemu
+      qemu_kvm
+      qtemu
+      # virtualboxWithExtpack
+      # virtualboxExtpack
     ];
   };
 
@@ -646,10 +795,15 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   # system.stateVersion = "22.05"; # Did you read the comment?
 
-  # nix = 
-  # {
-  #   package = pkgs.nixFlakes;
-  #   extraOption = "experimental-features = nix-command flakes";
-  # };
+  nix = 
+  {
+    sshServe = 
+    {
+      enable = true;
+      keys = []; 
+    };
+    package = pkgs.nixFlakes;
+    extraOptions = "experimental-features = nix-command flakes";
+  };
 
 }
