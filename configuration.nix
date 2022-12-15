@@ -457,6 +457,9 @@
     };
   };
 
+  ## AUTOJUMP ##
+  programs.autojump.enable = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -568,7 +571,7 @@
 
     systemPackages = with pkgs;
     [
-      javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  dbus  python310Packages.dbus-python  nodejs  yarn  docker
+      javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  dbus  python310Packages.dbus-python  nodejs  yarn  docker  jq
       ascii
       atool
       audacious
@@ -624,12 +627,16 @@
       wpsoffice
       xorg.xkill
 
+      # an
+      hakuneko
+      yacreader
+
       # share
       opendrop
 
       # social
       discord
-      # whatsapp-for-linux
+      whatsapp-for-linux
       rPackages.telegram
       mailspring
       rPackages.Rfacebook
@@ -648,8 +655,6 @@
       rPackages.twitteR
       python310Packages.twitter
       turses
-
-      franz
       cawbird
 
       # audio
@@ -670,6 +675,7 @@
       adguardhome
       tor
       dnscrypt-proxy2
+      openssl
 
       # media player
       mpv
@@ -742,6 +748,7 @@
       pridefetch
 
       # virtual machine
+      anbox
       gnome.gnome-boxes
       vmware-workstation
       virtualbox
