@@ -134,7 +134,6 @@
   # GNOME
   displayManager.gdm.enable = true;
   desktopManager.gnome.enable = true;
-
   };
 
   # THIS USING XFCE DE AND I3 WINDOW MANAGER
@@ -380,7 +379,6 @@
   programs.fish = 
   {
     enable = true;
-    # shellInit	= fishConfig;
   }; 
 
   ## STARSHIP ##
@@ -412,35 +410,110 @@
     };
   };
 
-  ## ALACRITTY ##
-  # programs.alacritty = {
-  #   enable	= true;
+  # ## FZF ##
+  # programs.fzf =
+  # {
+  #   keybindings = true;
+  #   fuzzyCompletion = true;
   # };
 
-  ## TMUX ##
-  programs.tmux = {
-    enable	= true;
-    shortcut	= "a";
-    terminal 	= "screen-256color";
-    keyMode	= "vi";
-    clock24 	= true;
-    # extraConfig	= 
-    # "
-    #   set -g default-command /run/current-system/sw/bin/zsh
-    # ";
-    plugins 	= with pkgs.tmuxPlugins; [
+    ## TMUX ##
+  programs.tmux = 
+  {
+    enable = true;
+    shortcut = "a";
+    terminal = "screen-256color";
+    clock24 = true; 
+    keyMode = "vi";
+    customPaneNavigationAndResize = true;
+    historyLimit = 10000;
+    resizeAmount = 10;
+    aggressiveResize = true;
+    plugins = with pkgs.tmuxPlugins;
+    [
       jump
       battery
       copycat
       vim-tmux-navigator
-      prefix-highlight
+      vim-tmux-focus-events
       tmux-fzf
+      tmux-thumbs
       yank
       cpu
       net-speed
       nord
-      ];
+      fpp
+      cpu
+      open
+      tilish
+      urlview
+      sysstat
+      sidebar
+      copy-toolkit
+      online-status
+      prefix-highlight
+      extrakto
+    ];
+    extraConfig = 
+    ''
+      set -g default-terminal "xterm-256color"
+      set -g default-command  /run/current-system/sw/bin/fish
+      set -g default-shell /run/current-system/sw/bin/fish
+
+      bind r source-file $HOME/.config/tmux/tmux.conf \; display "Reloaded!"
+
+      unbind % 
+      unbind '"' 
+      unbind c 
+
+      # window
+      bind-key Space new-window
+      bind-key b new-window 
+      bind-key i split-window -h
+      bind-key h split-window -v
+
+      # bind -t vi-copy y copy-pipe 'xclip -in -selection clipboard'
+
+      # resizing pane
+      bind -r C-k resize-pane -U 5
+      bind -r C-j resize-pane -D 5
+      bind -r C-h resize-pane -L 5
+      bind -r C-l resize-pane -R 5
+
+      # switch panes using Alt-arrow without prefix
+      bind -n M-Left select-pane -L
+      bind -n M-Right select-pane -R
+      bind -n M-Up select-pane -U
+      bind -n M-Down select-pane -D
+    '';
   };
+
+
+  # ## TMUX ##
+  # programs.tmux = {
+  #   enable	= true;
+  #   shortcut	= "a";
+  #   terminal 	= "screen-256color";
+  #   keyMode	= "vi";
+  #   clock24 	= true;
+  #   # extraConfig	= 
+  #   # "
+  #   #   set -g default-command /run/current-system/sw/bin/fish
+  #   #   set -g default-shell /run/current-system/sw/bin/fish
+  #   # ";
+  #   plugins 	= with pkgs.tmuxPlugins; [
+  #     jump
+  #     battery
+  #     copycat
+  #     vim-tmux-navigator
+  #     prefix-highlight
+  #     tmux-fzf
+  #     yank
+  #     cpu
+  #     net-speed
+  #     nord
+  #     ];
+  # };
 
   ## NEOVIM ##
   programs.neovim = {
@@ -448,12 +521,23 @@
     viAlias	= true;
     vimAlias	= true;
     defaultEditor = true;
+    configure =
+    {
+      customRC = ''
+      imap jj <Esc>
+      set number
+      set relativenumber
+      '';
+    };
   };
 
   ## GIT ##
   programs.git = {
     enable = true;
-    config = {
+    config = 
+    {
+      # git config --global user.name "Alfurqani";
+      # git config --global user.email syifa.alfurqoni@gmail.com;
     };
   };
 
@@ -480,7 +564,7 @@
         monospace	=  [ "ComicMono" ];
         sansSerif	=  [ "ComicMono" ];
         serif		=  [ "ComicMono" ];
-	emoji		=  [ "Material-Design-Icons" ];
+	# emoji		=  [ "Material-Design-Icons" ];
         # monospace	=  [ "ComicRelief" ];
         # sansSerif	=  [ "ComicRelief" ];
         # serif		=  [ "ComicRelief" ];
@@ -529,10 +613,12 @@
       gcm	= "git commit -m";
       gam	= "git commit -a -m";
       gsi	= "git switch";
+      gco	= "git checkout";
       gr 	= "git remote";
       gra	= "git remote add";
       grmv	= "git remote remove";
       grv	= "git remote -v";
+      gb	= "git branch";
       gbl	= "git branch --list";
       gp	= "git push -u";
       gl	= "git log";
@@ -569,9 +655,30 @@
       udmd	= "udisksctl unmount -b";
     };
 
+    gnome.excludePackages = (with pkgs; 
+    [
+    gnome-photos
+    gnome-tour
+    ]) ++ (with pkgs.gnome; [
+    cheese # webcam tool
+    gnome-music
+    gnome-terminal
+    gedit # text editor
+    epiphany # web browser
+    geary # email reader
+    evince # document viewer
+    gnome-characters
+    totem # video player
+    tali # poker game
+    iagno # go game
+    hitori # sudoku game
+    atomix # puzzle game
+    ]);
+
+
     systemPackages = with pkgs;
     [
-      javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  dbus  python310Packages.dbus-python  nodejs  yarn  docker  jq
+      javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  dbus  python310Packages.dbus-python  nodejs  yarn  docker  jq  python310Full  python310Packages.deemix  python310Packages.deezer-py  python310Packages.deezer-python  nuclear  
       ascii
       atool
       audacious
@@ -608,7 +715,6 @@
       protonvpn-gui
       python310Packages.protonvpn-nm-lib
       qbittorrent
-      ranger
       shotwell
       simplenote
       steam
@@ -688,6 +794,10 @@
       alacritty
       kitty
       tmux
+      ranger
+      joshuto
+      deer
+      pistol
       terminal-typeracer
       vim
       page
@@ -695,6 +805,10 @@
       nvimpager
       neovide
       uivonim
+      z-lua
+      yank
+      xsel
+      xclip
 
       # browser
       firefox
