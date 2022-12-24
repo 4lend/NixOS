@@ -343,7 +343,10 @@
     enable = true;
   };
 
-  programs.zsh =
+  programs = 
+  {
+  ## ZSH ##
+  zsh =
   {
     enable = true;
     enableCompletion = true;
@@ -376,13 +379,21 @@
     # };
   };
    
-  programs.fish = 
+  ## FISH ##
+  fish = 
   {
     enable = true;
   }; 
 
+  ## THEFUCK ##
+  thefuck = 
+  {
+    enable = true;
+    alias = "";
+  };
+
   ## STARSHIP ##
-  programs.starship = 
+  starship = 
   {
     enable	= true;
     settings	= {
@@ -411,14 +422,14 @@
   };
 
   # ## FZF ##
-  # programs.fzf =
+  # fzf =
   # {
   #   keybindings = true;
   #   fuzzyCompletion = true;
   # };
 
     ## TMUX ##
-  programs.tmux = 
+  tmux = 
   {
     enable = true;
     shortcut = "a";
@@ -460,7 +471,8 @@
       set -g default-command  /run/current-system/sw/bin/fish
       set -g default-shell /run/current-system/sw/bin/fish
 
-      bind r source-file $HOME/.config/tmux/tmux.conf \; display "Reloaded!"
+      # bind r source-file $HOME/.config/tmux/tmux.conf \; display "Reloaded!"
+      bind r source-file /etc/tmux.conf \; display "Reloaded!"
 
       unbind % 
       unbind '"' 
@@ -480,17 +492,22 @@
       bind -r C-h resize-pane -L 5
       bind -r C-l resize-pane -R 5
 
+      # no prefix
       # switch panes using Alt-arrow without prefix
       bind -n M-Left select-pane -L
       bind -n M-Right select-pane -R
       bind -n M-Up select-pane -U
       bind -n M-Down select-pane -D
+
+      # switch window
+      bind -n M-p previous-window
+      bind -n M-n next-window
     '';
   };
 
 
   # ## TMUX ##
-  # programs.tmux = {
+  # tmux = {
   #   enable	= true;
   #   shortcut	= "a";
   #   terminal 	= "screen-256color";
@@ -516,7 +533,7 @@
   # };
 
   ## NEOVIM ##
-  programs.neovim = {
+  neovim = {
     enable	= true;
     viAlias	= true;
     vimAlias	= true;
@@ -524,29 +541,29 @@
     configure =
     {
       customRC = ''
-      imap jj <Esc>
-      set number
-      set relativenumber
+        imap jj <Esc>
+        set number
+        set relativenumber
+        syntax on
+        inoremap jj <Esc>
       '';
     };
   };
 
   ## GIT ##
-  programs.git = {
+  git = 
+  {
     enable = true;
-    config = 
-    {
-      # git config --global user.name "Alfurqani";
-      # git config --global user.email syifa.alfurqoni@gmail.com;
-    };
+    # config = 
+    # {
+    #   git config --global user.name "Alfurqani";
+    #   git config --global user.email "syifa.alfurqoni@gmail.com;"
+    # };
   };
 
   ## AUTOJUMP ##
-  programs.autojump.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
+  autojump.enable = true;
+  };
 
   ### FONTS ### 
     fonts = {
@@ -557,6 +574,9 @@
       comic-mono
       comic-neue
       comic-relief
+      noto-fonts
+      noto-fonts-extra
+      noto-fonts-emoji
     ];
     fontconfig = {
       enable = true;
@@ -624,11 +644,12 @@
       gl	= "git log";
 
       y		= "yt-dlp";
-      yy	= "yt-dlp --extract-audio --audio-quality 0";
+      yy	= "yt-dlp --ignore-config --extract-audio --audio-quality 0";
       c		= "cd";
       d		= "cd ..";
       v		= "vim";
       nv	= "nvim";
+      p		= "spacevim";
       t 	= "tmux";
       e		= "exit";
       lv	= "lvim";
@@ -678,20 +699,18 @@
 
     systemPackages = with pkgs;
     [
-      javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  dbus  python310Packages.dbus-python  nodejs  yarn  docker  jq  python310Full  python310Packages.deemix  python310Packages.deezer-py  python310Packages.deezer-python  nuclear  
+      javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  dbus  python310Packages.dbus-python  nodejs  yarn  jq  python310Full    nim  nimble-unwrapped
       ascii
       atool
       audacious
       bat
       cargo
-      cinnamon.nemo
       cmatrix
       darktable
       dbus
       duf
       electron
       exa
-      flatpak
       firewalld
       geany
       git
@@ -702,7 +721,6 @@
       libsForQt5.dolphin
       libreoffice
       inkscape
-      nix-index
       nomacs
       notepadqq
       ntfs3g
@@ -736,6 +754,12 @@
       # an
       hakuneko
       yacreader
+      anime-downloader
+      anup
+      adl
+      filebot
+      nhentai
+      HentaiAtHome
 
       # share
       opendrop
@@ -789,6 +813,16 @@
       cmus
       cava
       streamlink
+      moc
+      musikcube
+      mp3blaster
+      python310Packages.deemix  
+      python310Packages.deezer-py  
+      python310Packages.deezer-python  
+      nuclear
+      spotify
+      spotify-tui
+      librespot
 
       # terminal
       alacritty
@@ -802,6 +836,7 @@
       vim
       page
       neovim-unwrapped
+      spacevim
       nvimpager
       neovide
       uivonim
@@ -809,6 +844,16 @@
       yank
       xsel
       xclip
+      mov-cli
+
+      # nix
+      nix-index
+      nix-prefetch
+      nix-prefetch-hg
+      nix-prefetch-git
+      nix-prefetch-github
+      nix-prefetch-scripts
+      nix-prefetch-docker
 
       # browser
       firefox
@@ -819,6 +864,8 @@
       google-chrome
       opera
       palemoon
+      epiphany
+      pantheon.epiphany
 
       # downloader
       yt-dlp
@@ -828,6 +875,9 @@
       python310Packages.aria2p
       uget
       uget-integrator
+      axel 
+      downonspot  # A spotify downloader writter in rust
+      spotdl  # Download your Spotify playlists and songs along with album art and metadata
 
       # usb bootable
       woeusb
@@ -835,6 +885,9 @@
       etcher
       ventoy-bin
       # ventoy-full-bin
+
+      # cinnamon package
+      cinnamon.nemo
 
       # xfce package
       xfce.ristretto
@@ -844,6 +897,7 @@
 
       # shell
       fish
+      fishPlugins.bass
       zsh
       bashInteractive
 
@@ -863,6 +917,8 @@
 
       # virtual machine
       anbox
+      waydroid
+      flatpak
       gnome.gnome-boxes
       vmware-workstation
       virtualbox
@@ -870,7 +926,19 @@
       qemu_kvm
       qtemu
       # virtualboxWithExtpack
-      # virtualboxExtpack
+      libreelec-dvb-firmware
+      kodi
+      kodi-gbm
+      kodi
+      docker  
+      docker-compose
+
+      # appimage
+      appimagekit
+      appimage-run
+
+      # kernel
+      linuxKernel.packages.linux_xanmod_stable.zfsUnstable
     ];
   };
 
@@ -883,7 +951,8 @@
   nixpkgs.config = 
   {
   allowUnsupportedSystem = true;
-
+  allowUnfree = true;
+  allowBroken = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -914,7 +983,17 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  # system.stateVersion = "22.05"; # Did you read the comment?
+
+  ### SYSTEM CONFIGURATION ## 
+  system = 
+  {
+    stateVersion = "22.11"; # Did you read the comment?
+    autoUpgrade = 
+    { 
+      enable = true;
+      channel = "https://nixos.org/channels/nixpkgs-unstable";
+    };
+  };
 
   nix = 
   {
