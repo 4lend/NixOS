@@ -12,11 +12,16 @@
     ];
 
   # Bootloader.
-  boot.loader = {
-  systemd-boot.enable = true;
-  efi.canTouchEfiVariables = true;
-  efi.efiSysMountPoint = "/boot/efi";
-  timeout = 2;
+  boot = 
+  {
+    loader = 
+    {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      efi.efiSysMountPoint = "/boot/efi";
+      timeout = 3;
+    };
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_stable.zfsUnstable;
   };
 
   ## NETWORKING ##
@@ -119,37 +124,48 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-  # Enable the MATE,PANTHEON,XFCE Desktop Environment.
-  services.xserver = {
-  enable = true;
-  displayManager.lightdm.enable = false;
-  desktopManager.pantheon.enable = false;
+  ### DESKTOP ENVIRONMENT ### 
+  services.xserver = 
+  {
+    enable = true;
 
-  ## CONFIGURE PANTHEON ##
+    # GNOME
+    displayManager.gdm.enable = false;
+    desktopManager.gnome.enable = false;
 
-  desktopManager.cinnamon.enable = false;
-  desktopManager.mate.enable = false;
-  desktopManager.xfce.enable = false;
-  
-  # GNOME
-  displayManager.gdm.enable = true;
-  desktopManager.gnome.enable = true;
+    # PANTHEON #
+    displayManager.lightdm.enable = true;
+    desktopManager = 
+    {
+      pantheon = 
+      {
+        enable = true;
+        # debug = false;
+        # extraWingpanelIndicators = "";
+        # extraSwitchboardPlugs = "";
+        # extraGSettingsOverrides = "";
+        # extraGSettingsOverridePackages = "";
+      };
+    };
+
+    # # XFCE & QTILE
+    # desktopManager = 
+    # {
+    #   default = "xfce";
+    #   xfce =
+    #   {
+    #     enable = true;
+    #     enableXfwm = false;
+    #     noDesktop = true;
+    #   };
+    #   xterm.enable = true;
+    # };
+    # windowManager.qtile.enable = true;
+
+    desktopManager.cinnamon.enable = false;
+    desktopManager.mate.enable = false;
+    desktopManager.xfce.enable = false;
   };
-
-  # THIS USING XFCE DE AND I3 WINDOW MANAGER
-  # services.xserver = {
-  #   enable = true;   
-  #   desktopManager = {
-  #     default = "xfce";
-  #     xterm.enable = false;
-  #     xfce = {
-  #       enable = true;
-  #       noDesktop = true;
-  #       enableXfwm = false;
-  #     };
-  #   };
-  #   windowManager.i3.enable = true;
-  # };
   
   # Configure keymap in X11
   services.xserver = {
@@ -185,6 +201,13 @@
   ### SERVICES ###
   services = 
   {
+    ## PANTHEON DESKTOP ##
+    pantheon = 
+    {
+      apps.enable = true;
+      contractor.enable = true;
+    };
+
     # ## NEXTDNS ##
     # nextdns = 
     # {
@@ -345,6 +368,9 @@
 
   programs = 
   {
+  ## PANTHEON ##
+  pantheon-tweaks.enable = true;
+
   ## ZSH ##
   zsh =
   {
@@ -676,6 +702,7 @@
       udmd	= "udisksctl unmount -b";
     };
 
+    # EXCLUDE GNOME PACKAGE
     gnome.excludePackages = (with pkgs; 
     [
     gnome-photos
@@ -696,6 +723,19 @@
     atomix # puzzle game
     ]);
 
+    # EXCLUDE PANTHEON PACKAGE
+    pantheon.excludePackages = with pkgs.pantheon;
+    [
+      elementary-sound-theme
+      elementary-mail
+      elementary-code
+      elementary-tasks
+      elementary-music
+      elementary-videos
+      elementary-photos
+      elementary-camera
+      elementary-wallpapers
+    ];
 
     systemPackages = with pkgs;
     [
@@ -865,7 +905,6 @@
       opera
       palemoon
       epiphany
-      pantheon.epiphany
 
       # downloader
       yt-dlp
@@ -966,6 +1005,13 @@
   # List services that you want to enable:
    services.flatpak.enable = true;
    xdg.portal.enable = true;
+   xdg.portal.wlr.enable = true;
+   # xdg.portal.extraPortals =
+   # {
+   #   xdg-desktop-portal-xfce
+   #   xdg-desktop-portal-gtk
+   #   xdg-desktop-portal-kde
+   # };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
