@@ -21,8 +21,13 @@
       efi.efiSysMountPoint = "/boot/efi";
       timeout = 3;
     };
-    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_stable.zfsUnstable;
+    # kernelPackages = linuxKernel.packages.linux_xanmod_stable.zfsUnstable;
+    # kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_stable.zfs;
   };
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_stable.zfs;
+  services.xserver.videoDrivers = [];
 
   ## NETWORKING ##
   networking =
@@ -130,23 +135,23 @@
     enable = true;
 
     # GNOME
-    displayManager.gdm.enable = false;
-    desktopManager.gnome.enable = false;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
 
-    # PANTHEON #
-    displayManager.lightdm.enable = true;
-    desktopManager = 
-    {
-      pantheon = 
-      {
-        enable = true;
-        # debug = false;
-        # extraWingpanelIndicators = "";
-        # extraSwitchboardPlugs = "";
-        # extraGSettingsOverrides = "";
-        # extraGSettingsOverridePackages = "";
-      };
-    };
+    # # PANTHEON #
+    # displayManager.lightdm.enable = true;
+    # desktopManager = 
+    # {
+    #   pantheon = 
+    #   {
+    #     enable = true;
+    #     debug = false;
+    #     # extraWingpanelIndicators = "";
+    #     # extraSwitchboardPlugs = "";
+    #     # extraGSettingsOverrides = "";
+    #     # extraGSettingsOverridePackages = "";
+    #   };
+    # };
 
     # # XFCE & QTILE
     # desktopManager = 
@@ -201,12 +206,12 @@
   ### SERVICES ###
   services = 
   {
-    ## PANTHEON DESKTOP ##
-    pantheon = 
-    {
-      apps.enable = true;
-      contractor.enable = true;
-    };
+    # ## PANTHEON DESKTOP ##
+    # pantheon = 
+    # {
+    #   apps.enable = true;
+    #   contractor.enable = false;
+    # };
 
     # ## NEXTDNS ##
     # nextdns = 
@@ -368,8 +373,8 @@
 
   programs = 
   {
-  ## PANTHEON ##
-  pantheon-tweaks.enable = true;
+  # ## PANTHEON ##
+  # pantheon-tweaks.enable = true;
 
   ## ZSH ##
   zsh =
@@ -518,7 +523,7 @@
       bind -r C-h resize-pane -L 5
       bind -r C-l resize-pane -R 5
 
-      # no prefix
+      ## no prefix
       # switch panes using Alt-arrow without prefix
       bind -n M-Left select-pane -L
       bind -n M-Right select-pane -R
@@ -528,9 +533,12 @@
       # switch window
       bind -n M-p previous-window
       bind -n M-n next-window
+
+      # yank
+      bind -n M-] paste-buffer
+      bind -n M-[ copy-mode
     '';
   };
-
 
   # ## TMUX ##
   # tmux = {
@@ -573,6 +581,24 @@
         syntax on
         inoremap jj <Esc>
       '';
+      packages.myVimPackage = with pkgs.vimPlugins;
+      {
+        start = 
+	[ 
+	  nord-vim 
+	  nord-nvim
+	  # fugitive
+	  # yuck-vim
+	  # vim_current_word
+	  # vim-lightline-coc
+	  # vimoutliner
+	  # tmuxline-vim
+	  # cmp-cmdline-history
+	  # bufferline-nvim
+	  # nordic-nvim
+	  # onenord-nvim
+	]; 
+      };
     };
   };
 
@@ -723,19 +749,19 @@
     atomix # puzzle game
     ]);
 
-    # EXCLUDE PANTHEON PACKAGE
-    pantheon.excludePackages = with pkgs.pantheon;
-    [
-      elementary-sound-theme
-      elementary-mail
-      elementary-code
-      elementary-tasks
-      elementary-music
-      elementary-videos
-      elementary-photos
-      elementary-camera
-      elementary-wallpapers
-    ];
+    # # EXCLUDE PANTHEON PACKAGE
+    # pantheon.excludePackages = with pkgs.pantheon;
+    # [
+    #   elementary-sound-theme
+    #   elementary-mail
+    #   elementary-code
+    #   elementary-tasks
+    #   elementary-music
+    #   elementary-videos
+    #   elementary-photos
+    #   elementary-camera
+    #   elementary-wallpapers
+    # ];
 
     systemPackages = with pkgs;
     [
@@ -881,6 +907,10 @@
       neovide
       uivonim
       z-lua
+      peco
+      autojump
+      pazi
+      fasd
       yank
       xsel
       xclip
@@ -924,6 +954,14 @@
       etcher
       ventoy-bin
       # ventoy-full-bin
+
+      # # pantheon package
+      # pantheon.switchboard
+      # pantheon-tweaks
+      # pantheon.wingpanel
+      # pantheon.wingpanel-indicator-a11y
+      # pantheon.wingpanel-with-indicators
+      # pantheon.wingpanel-indicator-network
 
       # cinnamon package
       cinnamon.nemo
