@@ -765,7 +765,8 @@
 
     systemPackages = with pkgs;
     [
-      javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  dbus  python310Packages.dbus-python  nodejs  yarn  jq  python310Full    nim  nimble-unwrapped
+      javaCup  dbus_java  maven  dotnet-sdk  dotnet-runtime  glib  lua  xdg-desktop-portal  xdg-desktop-portal-wlr  dbus  nodejs  yarn  jq  nim  nimble-unwrapped
+
       ascii
       atool
       audacious
@@ -816,6 +817,20 @@
       wget
       wpsoffice
       xorg.xkill
+
+      # python
+      python310Packages.dbus-python  
+      python310Full    
+      python310Packages.pip  
+      python310Packages.urllib3
+      python310Packages.types-urllib3
+      python310Packages.soupsieve
+      python310Packages.idna
+      python310Packages.charset-normalizer
+      python310Packages.certifi
+      python310Packages.requests
+      python310Packages.beautifulsoup4
+      python310Packages.soupsieve
 
       # an
       hakuneko
