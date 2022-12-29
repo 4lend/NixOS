@@ -229,47 +229,47 @@
     #   # ];
     # };
 
-    ## ADGUARDHOME ##
-    adguardhome = 
-    {
-      enable = true;
-      openFirewall = true;
-      settings =
-      {
-        dns =
-        {
-          bind_host = 
-            # "1.1.1.1";
-            "173.245.48.0";
-        
-          bind_port = "20";
+    # ## ADGUARDHOME ##
+    # adguardhome = 
+    # {
+    #   enable = true;
+    #   openFirewall = true;
+    #   settings =
+    #   {
+    #     dns =
+    #     {
+    #       bind_host = 
+    #         # "1.1.1.1";
+    #         "173.245.48.0";
+    #     
+    #       bind_port = "20";
 
-          # query logging
-          querylog_enabled = true;
-          querylog_file_enabled = true;
-          querylog_interval = "24h";
-          querylog_size_memory = 1000;   # entries
-          anonymize_client_ip = true;   # for now
+    #       # query logging
+    #       querylog_enabled = true;
+    #       querylog_file_enabled = true;
+    #       querylog_interval = "24h";
+    #       querylog_size_memory = 1000;   # entries
+    #       anonymize_client_ip = true;   # for now
 
-          # adguard
-          protection_enable = true;
-          blocking_mode = "default";
-          filtering_enable = true;
+    #       # adguard
+    #       protection_enable = true;
+    #       blocking_mode = "default";
+    #       filtering_enable = true;
 
-          # cloudflare DNS
-          cloudflare.dns =
-          [
-            "1.1.1.1"
-            "1.0.0.1"
-          ];
+    #       # cloudflare DNS
+    #       cloudflare.dns =
+    #       [
+    #         "1.1.1.1"
+    #         "1.0.0.1"
+    #       ];
 
-          # caching
-          cache_size = 536870912;  # 512 MB
-          cache_ttl_min = 1800;    # 30 min
-          cache_optimistic = true; # return stale and then refresh
-        };
-      };
-    };
+    #       # caching
+    #       cache_size = 536870912;  # 512 MB
+    #       cache_ttl_min = 1800;    # 30 min
+    #       cache_optimistic = true; # return stale and then refresh
+    #     };
+    #   };
+    # };
 
     ## DNSCRYPT-PROXY2 ##
     dnscrypt-proxy2 =
@@ -663,6 +663,7 @@
       nc	= "nix-channel";
       ncl	= "nix-channel --list"; 
       nca	= "nix-channel --add";
+      ncrm	= "nix-channel --remove";
       ncu	= "nix-channel --update";
       hb	= "home-manager build";
       hs	= "home-manager switch";
@@ -1086,7 +1087,7 @@
   ### SYSTEM CONFIGURATION ## 
   system = 
   {
-    stateVersion = "22.11"; # Did you read the comment?
+    stateVersion = "nixos-unstable"; # Did you read the comment?
     autoUpgrade = 
     { 
       enable = true;
