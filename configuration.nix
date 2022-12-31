@@ -629,6 +629,13 @@
       noto-fonts
       noto-fonts-extra
       noto-fonts-emoji
+      vistafonts
+      helvetica-neue-lt-std
+      victor-mono
+      ibm-plex
+      smiley-sans  # A condensed and oblique Chinese typeface seeking a visual balance between the humanist and the geometric
+      lxgw-wenkai  # An open-source Chinese font derived from Fontworks' Klee One
+      lexend  # A variable font family designed to aid in reading proficiency
     ];
     fontconfig = {
       enable = true;
@@ -780,6 +787,7 @@
       electron
       exa
       firewalld
+      font-manager
       geany
       git
       gnupg
@@ -969,6 +977,7 @@
       woeusb-ng
       etcher
       ventoy-bin
+      unetbootin
       # ventoy-full-bin
 
       # # pantheon package
