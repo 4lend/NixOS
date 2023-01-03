@@ -44,7 +44,7 @@
     networkmanager =
     {
       enable = true;
-      # dns = "dnsmasq";
+      dns = "dnsmasq";  # one of "default", "dnsmasq", "unbound", "systemd-resolved", "none"
       # enableStrongSwan = true;
     };
 
@@ -271,21 +271,21 @@
     #   };
     # };
 
-    ## DNSCRYPT-PROXY2 ##
-    dnscrypt-proxy2 =
-    {
-      enable = true;
-      upstreamDefaults = true;
-      settings = 
-      {
-        sources.public-resolvers = {
-          urls = [ "https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md" ];
-          cache_file = "public-resolvers.md";
-          minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
-          refresh_delay = 72;
-        };
-      };
-    };
+    # ## DNSCRYPT-PROXY2 ##
+    # dnscrypt-proxy2 =
+    # {
+    #   enable = true;
+    #   upstreamDefaults = true;
+    #   settings = 
+    #   {
+    #     sources.public-resolvers = {
+    #       urls = [ "https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md" ];
+    #       cache_file = "public-resolvers.md";
+    #       minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+    #       refresh_delay = 72;
+    #     };
+    #   };
+    # };
 
     # ## TOR ##
     # tor =
@@ -783,13 +783,10 @@
       cmatrix
       darktable
       dbus
-      duf
       electron
       exa
       firewalld
       font-manager
-      geany
-      git
       gnupg
       gparted
       input-remapper
@@ -799,7 +796,6 @@
       inkscape
       nomacs
       notepadqq
-      ntfs3g
       okular
       onlyoffice-bin
       pcmanfm
@@ -820,10 +816,6 @@
       trash-cli
       ueberzug
       unrar
-      vifm
-      vifm-full
-      vscode-with-extensions 
-      wget
       wpsoffice
       xorg.xkill
 
@@ -859,23 +851,9 @@
       whatsapp-for-linux
       rPackages.telegram
       mailspring
-      rPackages.Rfacebook
-      rPackages.facebookadsR
-      caprine-bin
-      gfbgraph
-      rPackages.rfacebookstat
-      mautrix-facebook
-      purple-facebook
-      libreddit
       headset
-      lemmy-ui
-      lemmy-server
       giara
-      # haskellPackages.reddit
-      rPackages.twitteR
-      python310Packages.twitter
-      turses
-      cawbird
+      slack
 
       # audio
       wireplumber
@@ -918,6 +896,7 @@
       alacritty
       kitty
       tmux
+      git
       ranger
       joshuto
       deer
@@ -925,6 +904,7 @@
       terminal-typeracer
       vim
       page
+      duf
       neovim-unwrapped
       spacevim
       nvimpager
@@ -939,6 +919,20 @@
       xsel
       xclip
       mov-cli
+      vifm
+      vifm-full
+      wget
+      # alternative man tools / unix documentation
+      cheat  # Create and view interactive cheatsheets on the command-line
+      cht-sh  # CLI client for cheat.sh, a community driven cheat sheet
+      navi  # An interactive cheatsheet tool for the command-line and application launchers
+      tldr  # Simplified and community-driven man pages
+      tealdeer  # A very fast implementation of tldr in Rust
+
+      # text editor
+      geany
+      obsidian
+      vscode-with-extensions 
 
       # nix
       nix-index
@@ -978,7 +972,8 @@
       etcher
       ventoy-bin
       unetbootin
-      # ventoy-full-bin
+      ntfs3g
+      fd
 
       # # pantheon package
       # pantheon.switchboard
@@ -1011,6 +1006,7 @@
       btop
       htop
       neofetch
+      bottom
       checkip
       freshfetch
       ipfetch
