@@ -643,14 +643,10 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        monospace	=  [ "ComicMono" ];
-        sansSerif	=  [ "ComicMono" ];
-        serif		=  [ "ComicMono" ];
-	emoji		=  [ "nerdfonts" ];
-	# emoji		=  [ "Material-Design-Icons" ];
-        # monospace	=  [ "ComicRelief" ];
-        # sansSerif	=  [ "ComicRelief" ];
-        # serif		=  [ "ComicRelief" ];
+        monospace	=  [ "ComicMono" ];  # ComicMono, ComicRelief, ComicCodeDemo-Regular
+        sansSerif	=  [ "ComicMono" ];  # ComicMono, ComicRelief, ComicCodeDemo-Regular
+        serif		=  [ "ComicMono" ];  # ComicMono, ComicRelief, ComicCodeDemo-Regular
+	emoji		=  [ "nerdfonts" ];  # Material-Design-Icons
       };
     };
   };
