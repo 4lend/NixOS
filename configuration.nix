@@ -271,21 +271,21 @@
     #   };
     # };
 
-    # ## DNSCRYPT-PROXY2 ##
-    # dnscrypt-proxy2 =
-    # {
-    #   enable = true;
-    #   upstreamDefaults = true;
-    #   settings = 
-    #   {
-    #     sources.public-resolvers = {
-    #       urls = [ "https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md" ];
-    #       cache_file = "public-resolvers.md";
-    #       minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
-    #       refresh_delay = 72;
-    #     };
-    #   };
-    # };
+    ## DNSCRYPT-PROXY2 ##
+    dnscrypt-proxy2 =
+    {
+      enable = true;
+      upstreamDefaults = true;
+      settings = 
+      {
+        sources.public-resolvers = {
+          urls = [ "https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md" ];
+          cache_file = "public-resolvers.md";
+          minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+          refresh_delay = 72;
+        };
+      };
+    };
 
     # ## TOR ##
     # tor =
@@ -371,254 +371,257 @@
     enable = true;
   };
 
+  ## PROGRAMS ##
   programs = 
   {
-  # ## PANTHEON ##
-  # pantheon-tweaks.enable = true;
+    # ## PANTHEON ##
+    # pantheon-tweaks.enable = true;
 
-  ## ZSH ##
-  zsh =
-  {
-    enable = true;
-    enableCompletion = true;
-    syntaxHighlighting = 
+    ## ZSH ##
+    zsh =
     {
       enable = true;
-      highlighters = 
-      [
-        "main"
-      ];
-    };
-    autosuggestions =
-    {
-      enable = true;
-      async = true;
-      strategy = 
-      [
-	"history"
-	"completion"
-        "match_prev_cmd"
-      ];
-      # extraConfig = 
+      enableCompletion = true;
+      syntaxHighlighting = 
+      {
+        enable = true;
+        highlighters = 
+        [
+          "main"
+        ];
+      };
+      autosuggestions =
+      {
+        enable = true;
+        async = true;
+        strategy = 
+        [
+          "history"
+          "completion"
+          "match_prev_cmd"
+        ];
+        # extraConfig = 
+        # {
+        #   "bindkey '\t'" = "autosuggest-accept";
+        # };
+      };
+      # ohMyZsh =
       # {
-      #   "bindkey '\t'" = "autosuggest-accept";
+      #   enable = true;
       # };
     };
-    # ohMyZsh =
-    # {
-    #   enable = true;
-    # };
-  };
-   
-  ## FISH ##
-  fish = 
-  {
-    enable = true;
-  }; 
-
-  ## THEFUCK ##
-  thefuck = 
-  {
-    enable = true;
-    alias = "";
-  };
-
-  ## STARSHIP ##
-  starship = 
-  {
-    enable	= true;
-    settings	= {
-    add_newline = true;
-    command_timeout = 1000;
-    cmd_duration = {
-      format = " [$duration]($style) ";
-      style = "bold #EC7279";
-      show_notifications = true;
-    };
-    nix_shell = {
-      format = " [$symbol$state]($style) ";
-    };
-    battery = {
-      full_symbol = "🔋 ";
-      charging_symbol = "⚡️ ";
-      discharging_symbol = "💀 ";
-    };
-    git_branch = {
-      format = "[$symbol$branch]($style) ";
-    };
-    gcloud = {
-      format = "[$symbol$active]($style) ";
-    };
-    };
-  };
-
-  # ## FZF ##
-  # fzf =
-  # {
-  #   keybindings = true;
-  #   fuzzyCompletion = true;
-  # };
-
-    ## TMUX ##
-  tmux = 
-  {
-    enable = true;
-    shortcut = "a";
-    terminal = "screen-256color";
-    clock24 = true; 
-    keyMode = "vi";
-    customPaneNavigationAndResize = true;
-    historyLimit = 10000;
-    resizeAmount = 10;
-    aggressiveResize = true;
-    plugins = with pkgs.tmuxPlugins;
-    [
-      jump
-      battery
-      copycat
-      vim-tmux-navigator
-      vim-tmux-focus-events
-      tmux-fzf
-      tmux-thumbs
-      yank
-      cpu
-      net-speed
-      nord
-      fpp
-      cpu
-      open
-      tilish
-      urlview
-      sysstat
-      sidebar
-      copy-toolkit
-      online-status
-      prefix-highlight
-      extrakto
-    ];
-    extraConfig = 
-    ''
-      set -g default-terminal "xterm-256color"
-      set -g default-command  /run/current-system/sw/bin/fish
-      set -g default-shell /run/current-system/sw/bin/fish
-
-      # bind r source-file $HOME/.config/tmux/tmux.conf \; display "Reloaded!"
-      bind r source-file /etc/tmux.conf \; display "Reloaded!"
-
-      unbind % 
-      unbind '"' 
-      unbind c 
-
-      # window
-      bind-key Space new-window
-      bind-key b new-window 
-      bind-key i split-window -h
-      bind-key h split-window -v
-
-      # bind -t vi-copy y copy-pipe 'xclip -in -selection clipboard'
-
-      # resizing pane
-      bind -r C-k resize-pane -U 5
-      bind -r C-j resize-pane -D 5
-      bind -r C-h resize-pane -L 5
-      bind -r C-l resize-pane -R 5
-
-      ## no prefix
-      # switch panes using Alt-arrow without prefix
-      bind -n M-Left select-pane -L
-      bind -n M-Right select-pane -R
-      bind -n M-Up select-pane -U
-      bind -n M-Down select-pane -D
-
-      # switch window
-      bind -n M-p previous-window
-      bind -n M-n next-window
-
-      # yank
-      bind -n M-] paste-buffer
-      bind -n M-[ copy-mode
-    '';
-  };
-
-  # ## TMUX ##
-  # tmux = {
-  #   enable	= true;
-  #   shortcut	= "a";
-  #   terminal 	= "screen-256color";
-  #   keyMode	= "vi";
-  #   clock24 	= true;
-  #   # extraConfig	= 
-  #   # "
-  #   #   set -g default-command /run/current-system/sw/bin/fish
-  #   #   set -g default-shell /run/current-system/sw/bin/fish
-  #   # ";
-  #   plugins 	= with pkgs.tmuxPlugins; [
-  #     jump
-  #     battery
-  #     copycat
-  #     vim-tmux-navigator
-  #     prefix-highlight
-  #     tmux-fzf
-  #     yank
-  #     cpu
-  #     net-speed
-  #     nord
-  #     ];
-  # };
-
-  ## NEOVIM ##
-  neovim = {
-    enable	= true;
-    viAlias	= true;
-    vimAlias	= true;
-    defaultEditor = true;
-    configure =
+     
+    ## FISH ##
+    fish = 
     {
-      customRC = ''
-        imap jj <Esc>
-        set number
-        set relativenumber
-        syntax on
-        inoremap jj <Esc>
-      '';
-      packages.myVimPackage = with pkgs.vimPlugins;
-      {
-        start = 
-	[ 
-	  nord-vim 
-	  nord-nvim
-	  # fugitive
-	  # yuck-vim
-	  # vim_current_word
-	  # vim-lightline-coc
-	  # vimoutliner
-	  # tmuxline-vim
-	  # cmp-cmdline-history
-	  # bufferline-nvim
-	  # nordic-nvim
-	  # onenord-nvim
-	]; 
+      enable = true;
+    }; 
+
+    ## THEFUCK ##
+    thefuck = 
+    {
+      enable = true;
+      alias = "";
+    };
+
+    ## STARSHIP ##
+    starship = 
+    {
+      enable	= true;
+      settings	= {
+      add_newline = true;
+      command_timeout = 1000;
+      cmd_duration = {
+        format = " [$duration]($style) ";
+        style = "bold #EC7279";
+        show_notifications = true;
+      };
+      nix_shell = {
+        format = " [$symbol$state]($style) ";
+      };
+      battery = {
+        full_symbol = "🔋 ";
+        charging_symbol = "⚡️ ";
+        discharging_symbol = "💀 ";
+      };
+      git_branch = {
+        format = "[$symbol$branch]($style) ";
+      };
+      gcloud = {
+        format = "[$symbol$active]($style) ";
+      };
       };
     };
-  };
 
-  ## GIT ##
-  git = 
-  {
-    enable = true;
-    # config = 
+    # ## FZF ##
+    # fzf =
     # {
-    #   git config --global user.name "Alfurqani";
-    #   git config --global user.email "syifa.alfurqoni@gmail.com;"
+    #   keybindings = true;
+    #   fuzzyCompletion = true;
     # };
-  };
 
-  ## AUTOJUMP ##
-  autojump.enable = true;
+      ## TMUX ##
+    tmux = 
+    {
+      enable = true;
+      shortcut = "a";
+      terminal = "screen-256color";
+      clock24 = true; 
+      keyMode = "vi";
+      customPaneNavigationAndResize = true;
+      historyLimit = 10000;
+      resizeAmount = 10;
+      aggressiveResize = true;
+      plugins = with pkgs.tmuxPlugins;
+      [
+        jump
+        battery
+        copycat
+        vim-tmux-navigator
+        vim-tmux-focus-events
+        tmux-fzf
+        tmux-thumbs
+        yank
+        cpu
+        net-speed
+        nord
+        fpp
+        cpu
+        open
+        tilish
+        urlview
+        sysstat
+        sidebar
+        copy-toolkit
+        online-status
+        prefix-highlight
+        extrakto
+      ];
+      extraConfig = 
+      ''
+        set -g default-terminal "xterm-256color"
+        set -g default-command  /run/current-system/sw/bin/fish
+        set -g default-shell /run/current-system/sw/bin/fish
+
+        # bind r source-file $HOME/.config/tmux/tmux.conf \; display "Reloaded!"
+        bind r source-file /etc/tmux.conf \; display "Reloaded!"
+
+        unbind % 
+        unbind '"' 
+        unbind c 
+
+        # window
+        bind-key Space new-window
+        bind-key b new-window 
+        bind-key i split-window -h
+        bind-key h split-window -v
+
+        # bind -t vi-copy y copy-pipe 'xclip -in -selection clipboard'
+
+        # resizing pane
+        bind -r C-k resize-pane -U 5
+        bind -r C-j resize-pane -D 5
+        bind -r C-h resize-pane -L 5
+        bind -r C-l resize-pane -R 5
+
+        ## no prefix
+        # switch panes using Alt-arrow without prefix
+        bind -n M-Left select-pane -L
+        bind -n M-Right select-pane -R
+        bind -n M-Up select-pane -U
+        bind -n M-Down select-pane -D
+
+        # switch window
+        bind -n M-p previous-window
+        bind -n M-n next-window
+
+        # yank
+        bind -n M-] paste-buffer
+        bind -n M-[ copy-mode
+      '';
+    };
+
+    # ## TMUX ##
+    # tmux = {
+    #   enable	= true;
+    #   shortcut	= "a";
+    #   terminal 	= "screen-256color";
+    #   keyMode	= "vi";
+    #   clock24 	= true;
+    #   # extraConfig	= 
+    #   # "
+    #   #   set -g default-command /run/current-system/sw/bin/fish
+    #   #   set -g default-shell /run/current-system/sw/bin/fish
+    #   # ";
+    #   plugins 	= with pkgs.tmuxPlugins; [
+    #     jump
+    #     battery
+    #     copycat
+    #     vim-tmux-navigator
+    #     prefix-highlight
+    #     tmux-fzf
+    #     yank
+    #     cpu
+    #     net-speed
+    #     nord
+    #     ];
+    # };
+
+    ## NEOVIM ##
+    neovim = {
+      enable	= true;
+      viAlias	= true;
+      vimAlias	= true;
+      defaultEditor = true;
+      configure =
+      {
+        customRC = ''
+          imap jj <Esc>
+          set number
+          set relativenumber
+          syntax on
+          inoremap jj <Esc>
+        '';
+        packages.myVimPackage = with pkgs.vimPlugins;
+        {
+          start = 
+          [ 
+            nord-vim 
+            nord-nvim
+            # fugitive
+            # yuck-vim
+            # vim_current_word
+            # vim-lightline-coc
+            # vimoutliner
+            # tmuxline-vim
+            # cmp-cmdline-history
+            # bufferline-nvim
+            # nordic-nvim
+            # onenord-nvim
+          ]; 
+        };
+      };
+    };
+
+    ## GIT ##
+    git = 
+    {
+      enable = true;
+      package = pkgs.gitFull;
+      # config = 
+      # {
+      #   git config --global user.name "Alfurqani";
+      #   git config --global user.email "syifa.alfurqoni@gmail.com";
+      # };
+    };
+
+    ## AUTOJUMP ##
+    autojump.enable = true;
   };
 
   ### FONTS ### 
-    fonts = {
+  fonts = 
+  {
     enableDefaultFonts = true;
     fonts = with pkgs; [
       nerdfonts
@@ -643,6 +646,7 @@
         monospace	=  [ "ComicMono" ];
         sansSerif	=  [ "ComicMono" ];
         serif		=  [ "ComicMono" ];
+	emoji		=  [ "nerdfonts" ];
 	# emoji		=  [ "Material-Design-Icons" ];
         # monospace	=  [ "ComicRelief" ];
         # sansSerif	=  [ "ComicRelief" ];
@@ -811,11 +815,8 @@
       subdl
       speedtest-cli
       standardnotes
-      starship
-      tdesktop
       trash-cli
       ueberzug
-      unrar
       wpsoffice
       xorg.xkill
 
@@ -849,11 +850,11 @@
       # social
       discord
       whatsapp-for-linux
-      rPackages.telegram
       mailspring
       headset
       giara
       slack
+      tdesktop
 
       # audio
       wireplumber
@@ -868,6 +869,8 @@
       xarchiver
       fsarchiver
       zip
+      unrar
+      p7zip
 
       # network
       adguardhome
@@ -993,6 +996,7 @@
       xfce.tumbler
 
       # shell
+      starship
       fish
       fishPlugins.bass
       zsh
